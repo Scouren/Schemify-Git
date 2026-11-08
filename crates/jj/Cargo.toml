@@ -1,0 +1,21 @@
+[package]
+name = "schemify-jj"
+description = "The Jujutsu plugin for Schemify: the Source control pane, the Explorer's marks, diffs and who changed each line, for a Jujutsu working copy."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+publish = false
+
+[lib]
+name = "jj"
+# cdylib: the wasm guest. rlib: the pure parts are unit-tested natively.
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+schemify-abi.workspace = true
+schemify-vcs.workspace = true
+
+[lints]
+workspace = true

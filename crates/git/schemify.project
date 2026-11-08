@@ -1,0 +1,7 @@
+schemify 1 project
+
+plugin git path git.wasm
+  grant spawn:git
+  grant read_project
+  grant write_project
+  grant commands

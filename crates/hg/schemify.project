@@ -1,0 +1,7 @@
+schemify 1 project
+
+plugin hg path hg.wasm
+  grant spawn:hg
+  grant read_project
+  grant write_project
+  grant commands

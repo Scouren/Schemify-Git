@@ -1,0 +1,7 @@
+schemify 1 project
+
+plugin p4 path p4.wasm
+  grant spawn:p4
+  grant read_project
+  grant write_project
+  grant commands

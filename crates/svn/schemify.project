@@ -1,0 +1,7 @@
+schemify 1 project
+
+plugin svn path svn.wasm
+  grant spawn:svn
+  grant read_project
+  grant write_project
+  grant commands

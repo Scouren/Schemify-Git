@@ -1,0 +1,7 @@
+schemify 1 project
+
+plugin jj path jj.wasm
+  grant spawn:jj
+  grant read_project
+  grant write_project
+  grant commands

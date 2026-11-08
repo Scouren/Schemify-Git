@@ -1,0 +1,39 @@
+# Every push and PR: format, lints, the native tests (the real-git tests included) and the
+# committed modules against a rebuild.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  plugins:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+      - uses: Swatinem/rust-cache@v2
+      - run: nix develop -c cargo fmt --check
+      - run: nix develop -c cargo clippy --all-targets -- -D warnings
+      - run: nix develop -c cargo clippy --target wasm32-unknown-unknown -- -D warnings
+      - run: nix develop -c cargo test --no-fail-fast
+      - run: nix develop -c ./build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: modules
+          path: crates/*/*.wasm
+          if-no-files-found: error
+      - name: committed modules equal the rebuild
+        run: |
+          git diff --quiet -- 'crates/*/*.wasm' && exit 0
+          echo "::error::a module differs from ./build.sh output: commit the modules artifact of this run"
+          exit 1
